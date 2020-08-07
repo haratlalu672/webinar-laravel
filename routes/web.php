@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'ArticleController@guestArticle')->name('artikel');
+Route::get('/cari', 'ArticleController@search')->name('search');
+Route::get('/artikel/{article}', 'ArticleController@detail')->name('detail');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('/article', 'ArticleController');
 });

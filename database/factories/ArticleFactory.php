@@ -7,11 +7,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Article::class, function (Faker $faker) {
     return [
-        'author'         => '1',
+        'user_id'         => '1',
         'slug'         => $faker->text,
         'title'        => $faker->text,
         'content'      => $faker->paragraph,
-        'thumbnail'      => 'default.jpg',
+        'thumbnail'      => 'img/default.jpg',
         'is_published' => true,
     ];
 });

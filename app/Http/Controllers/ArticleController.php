@@ -18,6 +18,13 @@ class ArticleController extends Controller
         $articles = article::all();
         return view('admin.article', compact('articles'));
     }
+    public function guestArticle()
+    {
+        // $articles = factory(Article::class, 10)->create();
+        $search = '';
+        $articles = article::where('is_published', true)->paginate(5);
+        return view('guest.article', compact('articles', 'search'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -114,5 +121,26 @@ class ArticleController extends Controller
         if ($article->thumbnail != "img/default.jpg") {
             \Storage::delete('public/' . $article->thumbnail);
         }
+    }
+
+    public function detail(article $article)
+    {
+        return view('guest.detail', compact('article'));
+    }
+
+    public function search(Request $request)
+    {
+        // $this->validate($request, [
+        //     'search'    => 'required|max:255',
+        // ],[
+        //     'search.required' => 'Pencarian tidak boleh kosong',
+        //     'search.max' => 'Maksimal 255 huruf'
+        // ]);
+        $search = $request->search;
+        $articles = \DB::table('articles')
+            ->where('title', 'like', "%" . $search . "%")
+            ->where('is_published', true)
+            ->paginate(5);
+        return \view('guest.article', compact('articles', 'search'));
     }
 }
